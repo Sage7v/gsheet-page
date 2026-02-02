@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Price List</title>
+  <style>
+    body { font-family: sans-serif; padding: 2rem; }
+    table { border-collapse: collapse; }
+    td, th { border: 1px solid #ccc; padding: 8px; }
+  </style>
+</head>
+<body>
+
+<h1>Prices</h1>
+
+<table id="priceTable">
+  <thead>
+    <tr><th>Item</th><th>Price</th></tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<script>
+const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQzxdh_uRW_0JG72mqGdeARNZ5DLxOl9c7VahdFlZ7C5UumfUL2jeqyW-UKqB4_o0dLMGBy8eUhhBic/pub?gid=0&single=true&output=csv";
+
+fetch(sheetUrl)
+  .then(res => res.text())
+  .then(text => {
+    const rows = text.trim().split("\n").slice(1);
+
+    const tbody = document.querySelector("#priceTable tbody");
+
+    rows.forEach(row => {
+      const [item, price] = row.split(",");
+
+      const tr = document.createElement("tr");
+      tr.innerHTML = `<td>${item}</td><td>$${price}</td>`;
+      tbody.appendChild(tr);
+    });
+  });
+</script>
+
+</body>
+</html>
